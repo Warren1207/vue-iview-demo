@@ -6,6 +6,7 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import './assets/iconfont/iconfont.css'
 import echarts from 'echarts'
+import 'babel-polyfill'
 
 Vue.prototype.$echarts = echarts
 

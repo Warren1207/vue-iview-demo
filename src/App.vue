@@ -22,4 +22,7 @@ html,body{
   width: 100%;
   height: 100%;
 }
+.ivu-table-cell span{
+  font-size: 14px;
+}
 </style>

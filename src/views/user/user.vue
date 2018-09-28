@@ -1,6 +1,6 @@
 <template>
-  <div style="width:100%;">
-      <Row>
+  <div style="width:100%;height:100%;" ref="maxContainer">
+      <Row ref="queryContainer">
         <Col :span="4" class="query-item">
           <Input v-model="queryForm.username" placeholder="请输入用户名" clearable></Input>
         </Col>
@@ -32,16 +32,16 @@
             <Button type="primary" :style="{width: '100%', maxWidth: '120px', minWidth: '50px'}" @click="queryFn(true)">搜索</Button>
         </Col>
       </Row>
-      <div class="tool-icon-group">
+      <div class="tool-icon-group" ref="iconContainer">
         <span @click="addFn"><Icon class="icon iconfont icon-xinzeng" size="20" title="新增"></Icon>新增</span>
       </div>
-      <Table border ref="selection" :columns="columnTitle" :data="queryData" :stripe="true"></Table>
+      <Table border ref="selection" :columns="columnTitle" :data="queryData" :height="tableH" :stripe="true"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div :style="{textAlign:'center'}">
             <Page :total="pageInfo.total" :page-size="pageInfo.pageSize" :current="pageInfo.current" @on-change="changePage" @on-page-size-change="pageSizeChange" show-sizer show-elevator show-total></Page>
         </div>
       </div>
-      <Modal v-model="userModal" :width="720" :title="modalTitle">
+      <Modal v-model="userModal" :width="720" :title="modalTitle" :mask-closable="false">
         <Form ref="userInfoFrom" :model="userinfo" label-position="top">
             <Row>
               <Col span="12" class="modal-form-item-padding">
@@ -162,6 +162,7 @@ export default {
         {
           title: 'ftp',
           align: 'center',
+          tooltip: true,
           key: 'Ftp'
         },
         {
@@ -293,7 +294,8 @@ export default {
         } else {
           callback(rule.message)
         }
-      }
+      },
+      tableH: 0
     }
   },
   mounted: function () {
@@ -311,6 +313,14 @@ export default {
       'enableUserInfo',
       'modifyUserInfo'
     ]),
+    tableHeight () {
+      if (this.$refs.maxContainer) {
+        this.outsiderH = this.$refs.maxContainer.offsetHeight
+        this.queryH = this.$refs.queryContainer.$el.offsetHeight
+        this.iconH = this.$refs.iconContainer.offsetHeight
+        this.tableH = this.outsiderH - this.queryH - this.iconH - 50
+      }
+    },
     initFn () {
       this.userinfoNew = JSON.parse(JSON.stringify(this.userinfo))
       this.queryFn(true)
@@ -326,6 +336,10 @@ export default {
       this.ftpComboxList().then(res => {
         this.ftpData = res.Data
       })
+      const that = this
+      window.onresize = () => {
+        that.tableHeight()
+      }
     },
     addFn () {
       this.userModal = true
@@ -432,6 +446,7 @@ export default {
       this.queryUserList(params).then(res => {
         this.queryData = res.Data
         this.pageInfo.total = res.Total
+        this.tableHeight()
       })
     },
     changePage (page) {

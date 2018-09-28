@@ -1,6 +1,9 @@
 <template>
-  <div style="width:100%;">
-      <Row>
+  <div style="width:100%;height:100%;" ref="maxContainer">
+      <Row ref="queryContainer">
+        <Col :span="4" class="query-item">
+            <Input type="text" v-model="queryForm.name" placeholder="项目名称" clearable></Input>
+        </Col>
         <Col :span="4" class="query-item">
           <Select v-model="queryForm.operatorId" filterable clearable placeholder="运营商" >
               <Option v-for="item in operatorData" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -18,17 +21,17 @@
             <Button type="primary" :style="{width: '100%', maxWidth: '120px', minWidth: '50px'}" @click="queryFn(true)">搜索</Button>
         </Col>
       </Row>
-      <div class="tool-icon-group">
+      <div class="tool-icon-group" ref="iconContainer">
         <span @click="addFn"><Icon class="icon iconfont icon-xinzeng" size="20" title="新增"></Icon>新增</span>
         <span @click="delFn"><Icon class="icon iconfont icon-shanchu" size="20" title="删除"></Icon>删除</span>
       </div>
-      <Table border ref="selection" :columns="columnTitle" :data="queryData" :stripe="true"></Table>
+      <Table border ref="selection" :columns="columnTitle" :data="queryData" :height="tableH" :stripe="true"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div :style="{textAlign:'center'}">
             <Page :total="pageInfo.total" :page-size="pageInfo.pageSize" :current="pageInfo.current" @on-change="changePage" @on-page-size-change="pageSizeChange" show-sizer show-elevator show-total></Page>
         </div>
       </div>
-      <Modal v-model="planModal" :width="720" :title="modalTitle">
+      <Modal v-model="planModal" :width="720" :title="modalTitle" :mask-closable="false">
         <Form ref="planInfoFrom" :model="planinfo" :rules="planValidate" label-position="top">
             <Row>
               <Col span="12" class="modal-form-item-padding">
@@ -38,13 +41,6 @@
                     </Select>
                 </FormItem>
               </Col>
-              <Col span="12" class="modal-form-item-padding">
-                  <FormItem label="区域" prop="AreaId">
-                      <Cascader :data="areaData" filterable :disabled="modalStatus==='modify'  || userType===0" v-model="planinfo.AreaId" placeholder="请选择区域"></Cascader>
-                  </FormItem>
-              </Col>
-            </Row>
-            <Row>
               <Col span="12">
                 <FormItem label="分包商" prop="SubcontractorId" class="modal-form-item-padding">
                     <Select v-model="planinfo.SubcontractorId" :disabled="modalStatus==='modify'  || userType===0" filterable clearable placeholder="请选择分包商" >
@@ -52,10 +48,29 @@
                       </Select>
                 </FormItem>
               </Col>
+            </Row>
+            <Row>
+              <Col span="12" class="modal-form-item-padding">
+                  <FormItem label="区域" prop="AreaId">
+                      <Cascader :data="areaData" filterable :disabled="modalStatus==='modify'  || userType===0" v-model="planinfo.AreaId" placeholder="请选择区域"></Cascader>
+                  </FormItem>
+              </Col>
               <Col span="12" class="modal-form-item-padding">
                   <FormItem label="计划单验站点数" prop="Counts">
                       <Input-number v-model="planinfo.Counts" :min="1" style="width: 100%"></Input-number>
                   </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span="12" class="modal-form-item-padding">
+                <FormItem label="项目名称" prop="Name">
+                    <Input type="text" :disabled="modalStatus==='modify'" v-model="planinfo.Name" placeholder="项目名称"></Input>
+                </FormItem>
+              </Col>
+              <Col span="12" class="modal-form-item-padding">
+                <FormItem label="项目经理">
+                    <Input v-model="planinfo.Manager" placeholder="请输入项目经理" clearable></Input>
+                </FormItem>
               </Col>
             </Row>
             <Row>
@@ -68,13 +83,6 @@
                   <FormItem label="项目截至日期" prop="EndTime">
                       <Date-picker type="date" v-model="planinfo.EndTime" placeholder="选择项目截至日期" style="width: 100%"></Date-picker>
                   </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span="12" class="modal-form-item-padding">
-                <FormItem label="项目经理">
-                    <Input v-model="planinfo.Manager" placeholder="请输入项目经理" clearable></Input>
-                </FormItem>
               </Col>
             </Row>
         </Form>
@@ -126,6 +134,16 @@ export default {
           key: 'Counts'
         },
         {
+          title: '项目名称',
+          align: 'center',
+          key: 'Name'
+        },
+        {
+          title: '项目经理',
+          align: 'center',
+          key: 'Manager'
+        },
+        {
           title: '项目开始日期',
           align: 'center',
           key: 'StartTime',
@@ -142,11 +160,6 @@ export default {
             return h('div',
               formatDate(new Date(params.row.EndTime), 'yyyy-MM-dd hh:mm'))
           }
-        },
-        {
-          title: '项目经理',
-          align: 'center',
-          key: 'Manager'
         },
         {
           title: '创建时间',
@@ -188,9 +201,11 @@ export default {
         'Counts': 1,
         'StartTime': '',
         'EndTime': '',
-        'Manager': ''
+        'Manager': '',
+        'Name': ''
       },
       planValidate: {
+        Name: [{ type: 'string', required: true, message: '计划名称不能为空', trigger: 'blur' }],
         OperatorId: [{ type: 'number', required: true, message: '运营商不能为空', trigger: 'change' }],
         AreaId: [{ type: 'array', required: true, message: '区域不能为空', trigger: 'change' }],
         SubcontractorId: [{ type: 'number', required: true, message: '分包商不能为空', trigger: 'change' }],
@@ -203,7 +218,8 @@ export default {
         total: 0,
         current: 1,
         pageSize: 10
-      }
+      },
+      tableH: 0
     }
   },
   mounted: function () {
@@ -219,6 +235,14 @@ export default {
       'modifyPlanInfo',
       'deletePlanInfo'
     ]),
+    tableHeight () {
+      if (this.$refs.maxContainer) {
+        this.outsiderH = this.$refs.maxContainer.offsetHeight
+        this.queryH = this.$refs.queryContainer.$el.offsetHeight
+        this.iconH = this.$refs.iconContainer.offsetHeight
+        this.tableH = this.outsiderH - this.queryH - this.iconH - 50
+      }
+    },
     initFn () {
       this.planinfoNew = JSON.parse(JSON.stringify(this.planinfo))
       this.queryFn(true)
@@ -231,6 +255,10 @@ export default {
       this.subcontractorComboxList().then(res => {
         this.subcontractorData = res.Data
       })
+      const that = this
+      window.onresize = () => {
+        that.tableHeight()
+      }
     },
     addFn () {
       this.planModal = true
@@ -338,6 +366,7 @@ export default {
       this.queryPlan(params).then(res => {
         this.queryData = res.Data
         this.pageInfo.total = res.Total
+        this.tableHeight()
       })
     },
     changePage (page) {

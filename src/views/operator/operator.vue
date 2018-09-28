@@ -1,6 +1,6 @@
 <template>
-    <div style="width:100%">
-      <Row>
+    <div style="width:100%;height:100%;" ref="maxContainer">
+      <Row ref="queryContainer">
         <Col :span="4" class="query-item">
           <Input type="text" v-model="queryForm.name" placeholder="名称" clearable></Input>
         </Col>
@@ -8,17 +8,17 @@
             <Button type="primary" :style="{width: '100%', maxWidth: '120px', minWidth: '50px'}" @click="searchTable()">搜索</Button>
         </Col>
       </Row>
-      <div class="tool-icon-group">
+      <div class="tool-icon-group" ref="iconContainer">
         <span @click="addFn"><Icon class="icon iconfont icon-xinzeng" size="20" title="新增"></Icon>新增</span>
         <span @click="delFn"><Icon class="icon iconfont icon-shanchu" size="20" title="删除"></Icon>删除</span>
       </div>
-      <Table border ref="selection" :columns="columnTitle" :data="queryData" :stripe="true"></Table>
+      <Table border ref="selection" :columns="columnTitle" :data="queryData" :height="tableH" :stripe="true"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div :style="{textAlign:'center'}">
             <Page :total="pageInfo.total" :page-size="pageInfo.pageSize" :current="pageInfo.current" @on-change="changePage" @on-page-size-change="pageSizeChange" show-sizer show-elevator show-total></Page>
         </div>
       </div>
-      <Modal v-model="operatorModal" :width="360" :title="modalTitle">
+      <Modal v-model="operatorModal" :width="360" :title="modalTitle" :mask-closable="false">
         <Form ref="operatorFrom" :model="operatorinfo" label-position="top">
             <Row>
               <Col span="24" class="modal-form-item-padding">
@@ -90,16 +90,29 @@ export default {
       },
       modalTitle: '',
       operatorinfo: {},
-      operatorModal: false
+      operatorModal: false,
+      tableH: 0
     }
   },
   mounted: function () {
     this.queryFn()
+    const that = this
+    window.onresize = () => {
+      that.tableHeight()
+    }
   },
   methods: {
     ...mapActions([
       'queryOperatorList', 'operatorModify', 'operatorAdd', 'operatorDel'
     ]),
+    tableHeight () {
+      if (this.$refs.maxContainer) {
+        this.outsiderH = this.$refs.maxContainer.offsetHeight
+        this.queryH = this.$refs.queryContainer.$el.offsetHeight
+        this.iconH = this.$refs.iconContainer.offsetHeight
+        this.tableH = this.outsiderH - this.queryH - this.iconH - 50
+      }
+    },
     addFn () {
       this.operatorModal = true
       this.modalTitle = '添加运营商'
@@ -173,6 +186,7 @@ export default {
       this.queryOperatorList(params).then(res => {
         this.queryData = res.Data
         this.pageInfo.total = res.Total
+        this.tableHeight()
       })
     },
     searchTable () {

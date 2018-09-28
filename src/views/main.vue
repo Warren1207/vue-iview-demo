@@ -160,5 +160,6 @@ export default {
   bottom: 0;
   left: 200px;
   width: calc(100% - 200px);
+  z-index: 999;
 }
 </style>

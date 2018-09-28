@@ -14,13 +14,22 @@
     </Row>
     <Row :gutter="20" class="index_communication">
       <Col span="4">
-        <div>中国移动</div>
+        <div>
+          <span></span>
+          中国移动
+        </div>
       </Col>
       <Col span="4">
-        <div>中国移动</div>
+        <div>
+          <span></span>
+           中国移动
+          </div>
       </Col>
       <Col span="4">
-        <div>中国移动</div>
+        <div>
+          <span></span>
+          中国移动
+        </div>
       </Col>
     </Row>
     <div class="data_show">
@@ -56,7 +65,7 @@
             <Row class="nationwide_map">
               <Col>
                 <p>
-                  <span>全国分包商进度监控（%）</span>
+                  <span>全国各省进度监控地图</span>
                   <span>点击地图查看各省分包商进度</span>
                 </p>
               </Col>
@@ -69,14 +78,130 @@
       </div>
       <Row class="nationwide">
         <Col>
-          <p>全国分包商进度监控（%）</p>
+          <p>地区分包商进度监控（%）</p>
         </Col>
         <Col span="24" class="mountNode">
-          <div id="mountNode_id"></div>
+          <!-- <div id="mountNode_id"></div> -->
+          <div>
+            <div class="coordinate">
+              <hr /><hr /><hr /><hr />
+              <ul>
+                <li>100</li>
+                <li>80</li>
+                <li>60</li>
+                <li>40</li>
+                <li>20</li>
+                <li>0</li>
+              </ul>
+            </div>
+            <div class="show_frame">
+            <div class="column">
+              <ul id="box">
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>北京</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南1</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南2</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南3</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南4</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南5</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南6</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南7</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南8</div>
+                </li>
+                <li>
+                  <ul class="region">
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                    <li><span>华苏</span><span>90%</span></li>
+                  </ul>
+                  <div>湖南9</div>
+                </li>
+              </ul>
+            </div>
+            </div>
+          </div>
         </Col>
       </Row>
     </div>
-
   </div>
 </template>
 
@@ -84,6 +209,7 @@
 // 引入 this.$echarts 主模块
 import chinaJson from 'echarts/map/json/china.json'
 import G2 from '@antv/g2'
+import $ from 'jquery'
 export default {
   name: 'home',
   components: {},
@@ -156,10 +282,10 @@ export default {
           },
           // layoutCenter: ['50%', '50%'],
           // layoutSize: 550,
-          left: '0%',
-          right: '0%',
+          left: '5%',
+          right: '5%',
           top: '5%',
-          bottom: '0%',
+          bottom: '5%',
           data: [
             {
               name: '南海诸岛',
@@ -574,12 +700,34 @@ export default {
         shared: false
       })
       chart.render()
+    },
+    drawLiness () {
+      $('#box>li:first').clone(true).appendTo('#box')
+      let _this = this
+      $('#box').animate({ left: -($('#box>li:first').width()) }, 8000, 'linear', function () {
+        $('#box>li:first').remove()
+        $('#box').css({ left: 0 })
+        _this.drawLiness()
+      })
+      $('#box').hover(function () {
+        $('#box').stop()
+      }, function () {
+        $('#box').animate({ left: -($('#box>li:first').width()) }, 8000, 'linear', function () {
+          $('#box>li:first').remove()
+          $('#box').css({ left: 0 })
+          _this.drawLiness()
+        })
+      })
+      // $('#box').animate({ left: '-500px' }, 5000, 'linear', this.drawLiness)
     }
   },
   mounted () {
     this.$nextTick(function () {
       this.lineRender('nationwide_plan')
-      this.drawLines('mountNode_id')
+      // this.drawLines('mountNode_id')
+      if ($('#box').width() > $('.show_frame').width()) {
+        this.drawLiness()
+      }
     })
   }
 }
@@ -617,6 +765,31 @@ export default {
 .index_communication>div>div:hover{
   background: #409eff;
   color: #fff;
+}
+.index_communication>div>div>span{
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  top: 4px;
+}
+.index_communication>div>div:first-child>span{
+
+}
+.index_communication>div>div:nth-child(2):hover span{
+  /* background: url(link.png) */
+}
+.index_communication>div>div:last-child:hover span{
+  /* background: url(move.png) */
+}
+.index_communication>div>div:first-child:hover span{
+  /* background: url(telecom.png) */
+}
+.index_communication>div>div:nth-child(2):hover span{
+  /* background: url(link.png) */
+}
+.index_communication>div>div:last-child:hover span{
+  /* background: url(move.png) */
 }
 .data_show{
   padding-bottom: 70px;
@@ -688,6 +861,109 @@ export default {
     }
 }
 .mountNode{
-  padding: 0 20px 0px;
+  padding: 0 20px 40px 45px;
+}
+.mountNode>div{
+  position: relative;
+}
+/* 图表 */
+ul,li{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+hr{
+  height: 24px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.coordinate{
+  width: 100%;
+  height: 125px;
+  border: 1px solid #ddd;
+  margin: 0 auto;
+  position: relative;
+}
+.coordinate>ul{
+  position: absolute;
+  top: -10px;
+  left: -28px;
+}
+.coordinate>ul>li{
+  margin-bottom: 6px;
+  text-align: right;
+}
+.coordinate>ul>li:last-child{
+  margin: 0;
+}
+.show_frame{
+  width: 100%;
+  height: 165px;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+}
+.column{
+  /* width: 100%; */
+  height: 125px;
+  position: absolute;
+  top: 0;
+  /* padding-right: 66px */
+}
+.column>ul{
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+  .column>ul>li{
+    height: 100%;
+  }
+  .column>ul>li>div{
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+  }
+.column .region{
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    margin: 0 10px;
+}
+.column .region>li{
+  background: blue;
+  color: #fff;
+  opacity: 1;
+  margin: 0 5px;
+  position: relative;
+  z-index: 99;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column-reverse;
+}
+.column .region>li>span{
+  display: inline-block;
+  transform:rotate(-90deg);
+  /* writing-mode:vertical-rl;
+  white-space:nowrap; */
+  margin: 5px 0;
+}
+.column .region>li:nth-child(1){
+  height: 40%;
+}
+.column .region>li:nth-child(2){
+  height: 80%;
+}
+.column .region>li:nth-child(3){
+  height: 60%;
+}
+.column .region>li:nth-child(4){
+  height: 100%;
+}
+.column .region>li:nth-child(5){
+  height: 20%;
 }
 </style>

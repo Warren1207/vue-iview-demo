@@ -1,6 +1,6 @@
 <template>
-    <div style="width:100%">
-      <Row>
+    <div style="width:100%;height:100%;" ref="maxContainer">
+      <Row ref="queryContainer">
           <Col span="4" class="query-item">
             <Input type="text" v-model="searchData.searchText" placeholder="GUID/文件名称" clearable></Input>
           </Col>
@@ -11,10 +11,10 @@
             <Button type="primary" :style="{width: '100%', maxWidth: '120px', minWidth: '50px'}" @click="searchTable()">搜索</Button>
           </Col>
       </Row>
-      <div class="tool-icon-group">
+      <div class="tool-icon-group" ref="iconContainer">
         <span @click="exportFn"><Icon class="icon iconfont icon-daochu" size="20" title="导出日志"></Icon>导出</span>
       </div>
-      <Table border ref="table" :columns="columnTitle" :data="queryData" :stripe="true"></Table>
+      <Table border ref="table" :columns="columnTitle" :height="tableH" :data="queryData" :stripe="true"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div :style="{textAlign:'center'}">
             <Page :total="pageInfo.total" :page-size="pageInfo.pageSize" :current="pageInfo.current" @on-change="changePage" @on-page-size-change="pageSizeChange" show-sizer show-elevator show-total></Page>
@@ -33,18 +33,22 @@ export default {
         {
           title: 'GUID',
           width: 280,
+          tooltip: true,
           align: 'center',
           key: 'Guid'
         },
         {
           title: '文件名称',
+          width: 280,
           align: 'center',
+          tooltip: true,
           key: 'FileName'
         },
         {
           title: '文件全路径',
-          width: 520,
+          width: 480,
           align: 'center',
+          tooltip: true,
           key: 'FileFullyName'
         },
         {
@@ -64,6 +68,17 @@ export default {
           key: 'MobileMode'
         },
         {
+          title: '状态',
+          align: 'center',
+          key: 'Status',
+          render: function (h, params) {
+            return h(
+              'span',
+              { 0: '已上传', 1: '已发送', 2: '已解析', 3: '文件错误' }[params.row.Status]
+            )
+          }
+        },
+        {
           title: '上传者',
           align: 'center',
           key: 'UserName'
@@ -71,6 +86,7 @@ export default {
         {
           title: '上传时间',
           align: 'center',
+          width: 160,
           key: 'CreateTime',
           render: function (h, params) {
             return h(
@@ -86,14 +102,27 @@ export default {
         current: 1,
         pageSize: 10
       },
-      tableTotal: 1
+      tableTotal: 1,
+      tableH: 0
     }
   },
   mounted: function () {
     this.queryTable()
+    const that = this
+    window.onresize = () => {
+      that.tableHeight()
+    }
   },
   methods: {
     ...mapActions(['queryLog']),
+    tableHeight () {
+      if (this.$refs.maxContainer) {
+        this.outsiderH = this.$refs.maxContainer.offsetHeight
+        this.queryH = this.$refs.queryContainer.$el.offsetHeight
+        this.iconH = this.$refs.iconContainer.offsetHeight
+        this.tableH = this.outsiderH - this.queryH - this.iconH - 50
+      }
+    },
     queryTable () {
       let params = {}
       params.current = this.pageInfo.current
@@ -106,6 +135,7 @@ export default {
       this.queryLog(params).then(res => {
         this.queryData = res.Data
         this.pageInfo.total = res.Total
+        this.tableHeight()
       })
     },
     searchTable () {
